@@ -12,6 +12,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
+from selenium.webdriver.chrome.service import Service as ChromeService
+from webdriver_manager.chrome import ChromeDriverManager
 
 # --- Config ---
 BASE_URL = "https://ebpnet.be/nl/api/v1/guideline/search"
@@ -43,7 +45,10 @@ def html_to_pdf(url: str, name: str) -> str:
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-gpu")
 
-    driver = webdriver.Chrome(options=options)
+    driver = webdriver.Chrome(
+    service=ChromeService(ChromeDriverManager().install()), 
+    options=options
+)
     pdf_path = ""
     try:
         driver.get(url)
